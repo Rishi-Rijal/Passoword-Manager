@@ -171,7 +171,7 @@ class PasswordManager(QMainWindow):
         save_password(account, username, encrypted_password)
 
         QMessageBox.information(self, "Success", "Password saved successfully!")
-        self.fetch_all_passwords()
+
 
         # Clear input fields
         self.account_input.clear()
@@ -277,15 +277,24 @@ class PasswordManager(QMainWindow):
             self.fetch_all_passwords()
 
     def prompt_for_pin(self, action):
-        """Prompt the user to enter a PIN before performing sensitive actions."""
+        """
+        Prompt the user to enter a PIN before performing sensitive actions.
+        If the user cancels or enters an incorrect PIN, switch back to the home screen.
+        """
         pin, ok = QInputDialog.getText(self, "Enter PIN", f"Enter your PIN to {action}:", QLineEdit.Password)
         if not ok or not pin:
-            QMessageBox.warning(self, "Error", "PIN is required!")
+            QMessageBox.warning(self, "Error", "PIN is required! Returning to Home screen.")
+            # Switch to a safe page 
+            self.switch_screen(0)
             return False
+
         if not verify_pin(pin):
-            QMessageBox.warning(self, "Error", "Incorrect PIN!")
+            QMessageBox.warning(self, "Error", "Incorrect PIN! Returning to Home screen.")
+            self.switch_screen(0)
             return False
+
         return True
+
     
     def set_new_pin(self):
         """Allow the user to set a new PIN."""
