@@ -13,9 +13,6 @@ from PySide6.QtCore import QSize, Qt, QTimer, QPropertyAnimation, QRect
 from database import save_password, get_all_passwords, delete_password as del_password, search_passwords, verify_pin, set_pin
 from encryption import encrypt_password, decrypt_password
 
-# Import the email authentication module.
-import email_auth
-
 class PasswordManager(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -147,7 +144,6 @@ class PasswordManager(QMainWindow):
 
     def switch_screen(self, index):
         """Switch between Add Password and View Password screens with animation."""
-        # (Example animation code; adjust as desired)
         animation = QPropertyAnimation(self.stack, b"geometry")
         animation.setDuration(400)
         animation.setStartValue(self.stack.geometry())
@@ -258,7 +254,6 @@ class PasswordManager(QMainWindow):
             delete_button.setFixedSize(80, 30)
             delete_button.setStyleSheet("background-color: #FF4C4C; color: white; border-radius: 5px; padding: 5px;")
             delete_button.clicked.connect(lambda _, acc=account: self.delete_password(acc))
-            print(account)
             self.results_table.setCellWidget(row_index, 4, delete_button)
 
     def delete_password(self, account):
